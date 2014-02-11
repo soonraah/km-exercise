@@ -38,11 +38,21 @@ function KMeans(k, points) {
     
     // apply points to the nearest centroid
     this.maximize = function() {
+        for (var j = 0, numClusters = clusters.length; j < numClusters; j++) {
+            clusters[j].memberIds = new Array(0);
+        }
         for (var i = 0, len = points.length; i < len; i++) {
             var minClusterId = -1;
             var minDistance = 9999999.9;
             for (var j = 0, numClusters = clusters.length; j < numClusters; j++) {
+                var distance = calcDistance(points[i], clusters[j].centroid);
+                if (distance < minDistance) {
+                    minClusterId = j;
+                    minDistance = distance;
+                }
             }
+            points[i].clusterId = minClusterId;
+            clusters[minClusterId].memberIds.push(i);
         }
     }
     
