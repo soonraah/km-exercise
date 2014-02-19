@@ -15,7 +15,9 @@ function KMeans(k, points) {
         while (cnt < this.k) {
             var index = Math.floor((Math.random() * k));
             if (selectedIds.indexOf(index) == -1) {
-                clusters[cnt] = new Cluster(points[index].x, points[index].y);
+                cluster = new Cluster(points[index].x, points[index].y);
+                cluster.centroid.clusterId = cnt;
+                clusters[cnt] = cluster;
                 ++cnt;
                 selectedIds.push(index);
             } else {
@@ -30,10 +32,9 @@ function KMeans(k, points) {
             this.initialize();
         } else {
             for (var i = 0, len = clusters.length; i < len; i++) {
-                calcCentroid(clusters[i]);
+                calcCentroid(clusters[i], i);
             }
         }
-        ++iter;
     }
     
     // apply points to the nearest centroid
@@ -54,6 +55,7 @@ function KMeans(k, points) {
             points[i].clusterId = minClusterId;
             clusters[minClusterId].memberIds.push(i);
         }
+        ++iter;
     }
     
     // calculate distance between point A and point B
@@ -66,7 +68,7 @@ function KMeans(k, points) {
     }
     
     // calculate centroid of a cluster
-    this.calcCentroid = function(cluster) {
+    this.calcCentroid = function(cluster, clusterId) {
         // euclidean distance
         var sumX = 0.0;
         var sumY = 0.0;
@@ -78,5 +80,15 @@ function KMeans(k, points) {
         }
         cluster.centroid.x = sumX / len;
         cluster.centroid.y = sumY / len;
+        cluster.centroid.clusterId = clusterId;
+    }
+    
+    // return point array of centroids
+    this.getCentroidPoints = function() {
+        var ret = [];
+        for (var i = 0, len = this.clusters.length; i < len; ++i) {
+            ret.push(this.clusters.centroid);
+        }
+        return ret;
     }
 }

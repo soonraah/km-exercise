@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>k-means exercise</title>
+        <!--<link rel="stylesheet" type="text/css" href="./css/main.css">-->
+        <script type="text/javascript" src="./js/point-diagram.js"></script>
+        <script type="text/javascript" src="./js/point.js"></script>
+        <script type="text/javascript" src="./js/dataset.js"></script>
+        <script type="text/javascript" src="./js/exercise-manager.js"></script>
+        <script type="text/javascript" src="./js/k-means.js"></script>
+        <script type="text/javascript" src="./js/cluster.js"></script>
+        <style type="text/css">
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: grey;
+                shape-rendering: crispEdges;
+            }
+            .axis text {
+                font-family: sans-serif;
+                font-size: small;
+            }
+        </style>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script language="javascript" type="text/javascript">
+            var iter = 0;
+            var manager = new ExerciseManager();
+            var dataset = null;
+            
+            var prvK = -1;
+            var prvDistribution = "";
+            
+            // 縦・横のピクセル数
+            var fieldWidth = 500;
+            var fieldHeight = 500;
+
+            
+            function onClickRestart() {
+                var curK = parseInt(document.getElementById("k").value);
+                var curDistribution = document.getElementById("distribution").value;
+                if (curK != prvK || curDistribution != prvDistribution) {
+                    manager.removeSvg();
+                    manager.createSvg(fieldWidth, fieldHeight, curDistribution);
+                }
+                manager.initialize(curK);
+                prvK = curK;
+                prvDistribution = curDistribution;
+            };
+            function onClickStep() {
+                
+            };
+        </script>
+    </head>
+    <body>
+        <h1>k-means exercise</h1>
+        <p>
+            Distribution
+            <select name="distribution" size=1 id="distribution">
+                <option value=uniform>uniform</option>
+            </select>
+        </p>
+        <p>
+            Number of clusters
+            <select name="k" size=1 id="k">
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+            </select>
+        </p>
+        <p>
+            <button name="restart" id="restart" onclick="onClickRestart()">Restart</button>
+            <button name="step" id="step" onclick="onClickStep()">Step</button>
+        </p>
+        <script>
+        </script>
+    </body>
+</html>
