@@ -2,6 +2,7 @@ function Point(x, y) {
     this.x = x;
     this.y = y;
     this.clusterId = -1;
+
     this.getColor = function() {
         var color;
         switch (this.clusterId) {
@@ -18,11 +19,15 @@ function Point(x, y) {
                 color = "orange";
                 break;
             case 4:
-                color = "royal blue";
+                color = "royalblue";
                 break;
             default:
-                color = "black";
+                color = "grey";
         }
         return color;
-    }
-}
+    };
+
+    this.toString = function() {
+        return "x=" + this.x + ", y=" + this.y + ", clusterId=" + this.clusterId;
+    };
+};

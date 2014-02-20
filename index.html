@@ -35,8 +35,14 @@
             var fieldWidth = 500;
             var fieldHeight = 500;
 
-            
+            var prvIcd = -99;
+            var countSame = 0;
+
             function onClickRestart() {
+                document.getElementById("step").disabled = "";
+                prvIcd = -99;
+                countSame = 0;
+
                 var curK = parseInt(document.getElementById("k").value);
                 var curDistribution = document.getElementById("distribution").value;
                 if (curK != prvK || curDistribution != prvDistribution) {
@@ -47,8 +53,19 @@
                 prvK = curK;
                 prvDistribution = curDistribution;
             };
+
             function onClickStep() {
-                
+                var icd = manager.step();
+                document.getElementById("icd").innerHTML = "<b>Average inner cluster distance: " + icd.toFixed(3) + "</b>";
+                if (icd == prvIcd) {
+                    ++countSame;
+                    if (countSame >= 2) {
+                        document.getElementById("step").disabled = "true";
+                    }
+                } else {
+                    countSame = 0;
+                }
+                prvIcd = icd;
             };
         </script>
     </head>
@@ -57,7 +74,11 @@
         <p>
             Distribution
             <select name="distribution" size=1 id="distribution">
-                <option value=uniform>uniform</option>
+                <option value=uniform>Uniform</option>
+                <option value=gaussian>Gaussian</option>
+                <option value=3gaussians>3 Gaussians</option>
+                <option value=3circles>3 Circles</option>
+                <option value=separated>Separated</option>
             </select>
         </p>
         <p>
@@ -73,7 +94,11 @@
             <button name="restart" id="restart" onclick="onClickRestart()">Restart</button>
             <button name="step" id="step" onclick="onClickStep()">Step</button>
         </p>
+        <p>
+            <div id="icd"><b>Average inner cluster distance:</b></div>
+        </p>
         <script>
+            onClickRestart();
         </script>
     </body>
 </html>

@@ -1,13 +1,9 @@
 function ExerciseManager() {
-    this.iter = 0;
-    
     this.kmeans = null;
     
     this.svg = null;
     
     this.dataPoints = null;
-    
-    this.centroidPoints = null;
     
     this.pointDiagram = null;
     
@@ -16,7 +12,9 @@ function ExerciseManager() {
     this.dataSupplier = new DataSupplier();
     
     this.initialize = function(k) {
-        kmeans = new KMeans(k, this.dataPoints);
+        this.kmeans = new KMeans(k, this.dataPoints);
+        this.isEstimationPhase = true;
+        this.pointDiagram.clear();
     };
     
     this.step = function() {
@@ -27,21 +25,22 @@ function ExerciseManager() {
             this.maximize();
             this.isEstimationPhase = true;
         }
+        return this.kmeans.innerClusterDistance;
     };
     
     this.estimate = function() {
         this.kmeans.estimate();
+        var centroidPoints = this.kmeans.getCentroidPoints();
         if (this.kmeans.iter == 0) {
-            var centroidPoints = this.kmeans.getCentroidPoints();
             this.pointDiagram.addRects(centroidPoints);
         } else {
-            
-            
+            this.pointDiagram.moveRects(centroidPoints);
         }
     }
     
     this.maximize = function() {
-        
+        this.kmeans.maximize();
+        this.pointDiagram.updateCirclesColor(this.dataPoints, this.kmeans.clusters);
     }
     
     this.clear = function(k, points) {
@@ -59,7 +58,7 @@ function ExerciseManager() {
     
     // SVG コンテンツの生成
     this.createSvg = function(fieldWidth, fieldHeight, dataName) {
-        ds = this.dataSupplier.getData(dataName);
+        var ds = this.dataSupplier.getData(dataName);
         this.pointDiagram = new PointDiagram();
         this.pointDiagram.draw(fieldWidth, fieldHeight, ds);
         this.dataPoints = this.createPointsFromDataset(ds);
