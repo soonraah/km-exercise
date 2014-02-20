@@ -42,6 +42,7 @@
                 document.getElementById("step").disabled = "";
                 prvIcd = -99;
                 countSame = 0;
+                document.getElementById("icd").innerHTML = "<b>Average inner cluster distance:</b>";
 
                 var curK = parseInt(document.getElementById("k").value);
                 var curDistribution = document.getElementById("distribution").value;
@@ -73,7 +74,7 @@
         <h1>k-means exercise</h1>
         <p>
             Distribution
-            <select name="distribution" size=1 id="distribution">
+            <select name="distribution" size=1 id="distribution" onchange="onClickRestart()">
                 <option value=uniform>Uniform</option>
                 <option value=gaussian>Gaussian</option>
                 <option value=3gaussians>3 Gaussians</option>
@@ -83,7 +84,7 @@
         </p>
         <p>
             Number of clusters
-            <select name="k" size=1 id="k">
+            <select name="k" size=1 id="k" onchange="onClickRestart()">
                 <option value=2>2</option>
                 <option value=3>3</option>
                 <option value=4>4</option>
