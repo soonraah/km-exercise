@@ -10,6 +10,7 @@
         <script type="text/javascript" src="./js/exercise-manager.js"></script>
         <script type="text/javascript" src="./js/k-means.js"></script>
         <script type="text/javascript" src="./js/cluster.js"></script>
+        <script type="text/javascript" src="./js/line-chart.js"></script>
         <style type="text/css">
             .axis path,
             .axis line {
@@ -23,6 +24,8 @@
             }
         </style>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="./js/lib/c3/c3.css">
+        <script type="text/javascript" src="./js/lib/c3/c3.min.js"></script>
         <script language="javascript" type="text/javascript">
             var iter = 0;
             var manager = new ExerciseManager();
@@ -31,12 +34,16 @@
             var prvK = -1;
             var prvDistribution = "";
             
-            // 縦・横のピクセル数
+            // 散布図の縦・横のピクセル数
             var fieldWidth = 300;
             var fieldHeight = 300;
 
             var prvIcd = -99;
             var countSame = 0;
+            
+            var lineChart = new LineChart();
+            var lineChartWidth = 400;
+            var lineChartHeight = 300;
 
             function onClickRestart() {
                 document.getElementById("step").disabled = "";
@@ -98,8 +105,11 @@
         <p>
             <div id="icd"><b>Average inner cluster distance:</b></div>
         </p>
+        <div id="canvas1" style="float: left"></div>
+        <div id="chart" style="float: left"></div>
         <script>
             onClickRestart();
+            lineChart.draw(lineChartWidth, lineChartHeight);
         </script>
     </body>
 </html>

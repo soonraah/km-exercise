@@ -23,7 +23,7 @@ function PointDiagram() {
         
         // SVG
         this.svg = d3
-            .select("body")
+            .select("#canvas1")
             .append("svg")
             .attr("width", fieldWidth)
             .attr("height", fieldHeight);
