@@ -56,11 +56,19 @@
                 if (curK != prvK || curDistribution != prvDistribution) {
                     manager.removeSvg();
                     manager.createSvg(fieldWidth, fieldHeight, curDistribution);
+                    if (lineChart.isInisitalized) {
+                        lineChart.clear();
+                    } else {
+                        lineChart.initialize(lineChartWidth, lineChartHeight);
+                    }
+                } else {
                 }
                 manager.initialize(curK);
                 prvK = curK;
                 prvDistribution = curDistribution;
-            };
+
+                lineChart.addNewLine();
+            }
 
             function onClickStep() {
                 var icd = manager.step();
@@ -72,6 +80,9 @@
                     }
                 } else {
                     countSame = 0;
+                    if (prvIcd != -99) {
+                        lineChart.addPoint(icd);
+                    }
                 }
                 prvIcd = icd;
             };
@@ -109,7 +120,6 @@
         <div id="chart" style="float: left"></div>
         <script>
             onClickRestart();
-            lineChart.draw(lineChartWidth, lineChartHeight);
         </script>
     </body>
 </html>
